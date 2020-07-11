@@ -10,7 +10,7 @@ Check the [Live Demo here](http://vuejs.creative-tim.com/vue-light-bootstrap-das
 ![](public/Dashboard.PNG)
 ## :rocket: Getting started
 
-Vue Light Bootstrap Dashboard is built on top of Bootstrap 4, Vuejs and Vue-router. To get started do the following steps:
+Vue Light Bootstrap Dashboard is built on top of Bootstrap 4, Vuejs and Vue-router. To get started do the following steps:  
 1. Download the project
 2. Make sure you have node.js (https://nodejs.org/en/) installed
 3. Type `npm install` in the source folder where `package.json` is located
