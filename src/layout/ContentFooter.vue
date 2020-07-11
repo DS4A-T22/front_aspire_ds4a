@@ -9,11 +9,7 @@
         </ul>
       </nav>
       <div class="copyright text-center">
-<<<<<<< HEAD
         &copy; Diseñado por Team 22 -  Data Science for All (DS4A)
-=======
-        &copy; Diseñado por: Equipo 22 - Data Science for All (DS4A)
->>>>>>> develop
       </div>
     </div>
   </footer>
