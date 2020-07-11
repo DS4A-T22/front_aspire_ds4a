@@ -127,7 +127,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label for="sel1">Seguridad Social</label>
+                        <label for="sel1">Regimen</label>
                         <select class="form-control" id="sel1" v-model="patient.social_security_regime">
                             <option>Contributivo</option>
                             <option>Subsidiado</option>
@@ -138,7 +138,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label for="sel1">Tipo Seguridad Social</label>
+                        <label for="sel1">Tipo de afiliación</label>
                         <select class="form-control" id="sel1" v-model="patient.social_security_affiliation_type">
                             <option>Cotizante</option>
                             <option>Beneficiario</option>
