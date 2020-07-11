@@ -84,7 +84,7 @@
               </div>
               <hr>
               <div class="stats">
-                <i class="fa fa-check"></i> Datos verificada
+                <i class="fa fa-check"></i> Datos verificados
               </div>
             </template>
           </chart-card>
@@ -129,7 +129,7 @@
               </div>
               <hr>
               <div class="stats">
-                <i class="fa fa-check"></i> Datos verificada
+                <i class="fa fa-check"></i> Datos verificados
               </div>
             </template>
           </chart-card>
