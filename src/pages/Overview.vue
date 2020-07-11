@@ -112,8 +112,31 @@
       </div>
 
       <div class="row">
-       <!-- Adherence factors:  TODO - define -->
-        
+       <!-- Adherence factors:  TODO - define  using https://jscharting.com/examples/chart-types/bar/-->
+        <div class="col-md-6"> 
+          <chart-card
+            :chart-data="bar_factores.data"
+            :chart-options="bar_factores.options"
+            :chart-responsive-options="bar_factores.responsiveOptions"
+            chart-type="Bar">
+            <template slot="header">
+              <h4 class="card-title">Factores Adherencia</h4>
+              <p class="card-category">Categorías </p>
+            </template>
+            <template slot="footer">
+              <div class="legend">
+                <i class="fa fa-circle text-info"></i> Completado
+                <i class="fa fa-circle text-danger"></i> No completado
+              </div>
+              <hr>
+              <div class="stats">
+                <i class="fa fa-check"></i> Datos verificada
+              </div>
+            </template>
+          </chart-card>
+
+
+        </div>
         <!-- Adherence progress per patient -->
          <div class="col-md-6">
           <chart-card :chart-data="lineChart.data"
@@ -264,6 +287,32 @@
             }]
           ]
         },
+        bar_factores: {
+          data: {
+            labels: ['Factor A', 'Factor B', 'Factor C', 'Factor D'],
+            series: [
+              [91, 93, 58, 95],
+            ]
+          },
+          options: {
+            seriesBarDistance: 50,
+          
+            axisX: {
+              showGrid: false
+            },
+            height: '275px',
+          },
+          responsiveOptions: [
+            ['screen and (max-width: 940px)', {
+              seriesBarDistance: 10,
+              axisX: {
+                labelInterpolationFnc (value) {
+                  return value[0]
+                }
+              }
+            }]
+          ]
+        },
         tableData: {
           data: [
             {title: 'Más de 100 pacientes han mejorado el grado de adherencia"', checked: false},
@@ -277,11 +326,36 @@
              checked: true},
             {title: 'Se ha realizado exitosamente la limpieza de las bases de datos presentadas', checked: false}
           ]
+        },
+        // Factor's table
+        Factor_Table:{
+        
+             data:[
+              {value: 45,
+              max: 100}
+             ]
+          
         }
       }
     }
   }
 </script>
 <style>
+body{
+  font-family: sans-serif;
+}
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.box{
+    width: 800px;
+    padding: 40px;
+    margin: 50px auto;
+    background: #f3f3f3;
+    box-shadow: 3px 3px 30px 3px rgba(0, 0, 0, 0.1);
+
+}
 
 </style>
