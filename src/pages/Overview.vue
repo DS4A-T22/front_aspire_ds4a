@@ -121,12 +121,11 @@
             chart-type="Bar">
             <template slot="header">
               <h4 class="card-title">Factores Adherencia</h4>
-              <p class="card-category">Categorías </p>
+              <p class="card-category">Categorías de adherencia de un paciente </p>
             </template>
             <template slot="footer">
               <div class="legend">
-                <i class="fa fa-circle text-info"></i> Completado
-                <i class="fa fa-circle text-danger"></i> No completado
+                <i class="fa fa-circle text-info"></i> % Factor
               </div>
               <hr>
               <div class="stats">
