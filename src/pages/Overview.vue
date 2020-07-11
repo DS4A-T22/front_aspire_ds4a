@@ -2,7 +2,7 @@
   <div class="content">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-xl-3 col-md-4">
+        <div class="col-xl-4 col-md-4">
           <stats-card>
             <div slot="header" class="icon-success">
               <i class="nc-icon nc-favourite-28 text-success"></i>
@@ -17,7 +17,7 @@
           </stats-card>
         </div>
 
-        <div class="col-xl-3 col-md-4">
+        <div class="col-xl-4 col-md-4">
           <stats-card>
             <div slot="header" class="icon-warning">
               <i class="nc-icon nc-fav-remove text-warning"></i>
@@ -33,7 +33,7 @@
           </stats-card>
         </div>
 
-        <div class="col-xl-3 col-md-4">
+        <div class="col-xl-4 col-md-4">
           <stats-card>
             <div slot="header" class="icon-info">
               <i class="nc-icon nc-chart-pie-36 text-primary"></i>
@@ -84,7 +84,7 @@
               </div>
               <hr>
               <div class="stats">
-                <i class="fa fa-check"></i> Data verificada
+                <i class="fa fa-check"></i> Datos verificada
               </div>
             </template>
           </chart-card>
@@ -93,18 +93,18 @@
         <div class="col-md-4">
           <chart-card :chart-data="pieChart.data" chart-type="Pie">
             <template slot="header">
-              <h4 class="card-title">Email Statistics</h4>
-              <p class="card-category">Last Campaign Performance</p>
+              <h4 class="card-title">Demográficos</h4>
+              <p class="card-category">Distribución por género</p>
             </template>
             <template slot="footer">
               <div class="legend">
-                <i class="fa fa-circle text-info"></i> Open
-                <i class="fa fa-circle text-danger"></i> Bounce
-                <i class="fa fa-circle text-warning"></i> Unsubscribe
+                <i class="fa fa-circle text-info"></i> Masculino
+                <i class="fa fa-circle text-danger"></i> Femenino
+                <!--<i class="fa fa-circle text-warning"></i> Unsubscribe-->
               </div>
               <hr>
               <div class="stats">
-                <i class="fa fa-clock-o"></i> Campaign sent 2 days ago
+                <i class="fa fa-clock-o"></i> Actualizado hoy
               </div>
             </template>
           </chart-card>
@@ -188,8 +188,8 @@
         deleteTooltip: 'Remove',
         pieChart: {
           data: {
-            labels: ['40%', '20%', '40%'],
-            series: [40, 20, 40]
+            labels: ['43%', '57%'],
+            series: [43, 57]
           }
         },
         lineChart: {
