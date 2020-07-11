@@ -205,7 +205,6 @@
   import ChartCard from 'src/components/Cards/ChartCard.vue'
   import StatsCard from 'src/components/Cards/StatsCard.vue'
   import LTable from 'src/components/Table.vue'
-
   export default {
     components: {
       LTable,
@@ -354,7 +353,5 @@ body{
     margin: 50px auto;
     background: #f3f3f3;
     box-shadow: 3px 3px 30px 3px rgba(0, 0, 0, 0.1);
-
 }
-
 </style>
