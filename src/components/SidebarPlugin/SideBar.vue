@@ -7,7 +7,7 @@
       <div class="logo">
         <a href="#" class="simple-text logo__container">
             <div class="logo-img">
-                <img src="img/vue-logo.png" alt="">
+                <img src="img/aspire-logo2.png" alt="">
             </div>
           {{title}}
         </a>
@@ -27,9 +27,9 @@
           </sidebar-link>
         </slot>
       </ul>
-      <ul class="nav nav-bottom" v-if="$slots['bottom-links']">
+      <!--<ul class="nav nav-bottom" v-if="$slots['bottom-links']">
         <slot name="bottom-links"></slot>
-      </ul>
+      </ul>-->
     </div>
   </div>
 </template>
@@ -43,11 +43,11 @@
     props: {
       title: {
         type: String,
-        default: 'Vue LBD'
+        default: 'ASPIRE'
       },
       backgroundColor: {
         type: String,
-        default: 'black',
+        default: 'azure',
         validator: (value) => {
           let acceptedValues = ['', 'blue', 'azure', 'green', 'orange', 'red', 'purple', 'black']
           return acceptedValues.indexOf(value) !== -1
@@ -55,7 +55,7 @@
       },
       backgroundImage: {
         type: String,
-        default: 'img/sidebar-5.jpg'
+        default: 'img/sidebar-6.jpg'
       },
       activeColor: {
         type: String,
