@@ -20,7 +20,10 @@
     "v-tooltip": "^2.0.0-rc.33",
     "vue": "^2.6.6",
     "vue-router": "^3.0.2",
-    "vue2-google-maps": "^0.8.4"
+    "vue2-google-maps": "^0.8.4",
+    "lodash.orderby": "^4.6.0",
+    "v-datatable-light": "^0.8.1",
+    "vue-simple-spinner": "^1.2.10"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",
