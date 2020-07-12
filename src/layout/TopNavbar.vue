@@ -41,8 +41,13 @@
         </ul>
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
+            <a class="nav-link" href="#">
+              Cuenta
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="#" class="nav-link">
-              Log out
+              Salir
             </a>
           </li>
         </ul>
