@@ -10,7 +10,8 @@
               <h4 class="card-title">Pacientes</h4>
               <p class="card-category">Lista de pacientes OMNIVIDA</p>
             </template>
-            <l-table class="table table-hover" :columns="tableColumns" :data="tableData">
+            <div class="loader" v-if="!show_table"></div>
+            <l-table class="table table-hover" :columns="tableColumns" :data="tableData" v-if="show_table">
               <template slot="columns" style="width: 100%;!important">
                   <th></th>
                   <th>Nombres</th>
@@ -21,17 +22,17 @@
                 <td><img style="width: 50px;" v-bind:src="row.image" /></td>
                 <td><p style="margin-bottom: 0;!important"><b>{{row.first_name}} {{row.last_name}}</b></p > {{row.age}} años</td>
                 <td>
-                  <button class="btn btn-icon btn-info" @click="handleEdit(row)"><i class="fa fa-edit"></i></button>
+                  <button class="btn btn-icon btn-info" @click="handleEdit(row.id_patient)"><i class="fa fa-edit"></i></button>
                   <button class="btn btn-icon btn-danger" @click="handleDelete(row)"><i class="fa fa-trash"></i></button>
                 </td>
-                <td>78%</td>
+                <td>{{row.adherence}}%</td>
               </template>
           </l-table>
           </card>
           <nav aria-label="Page navigation example">
             <ul class="pagination">
-              <li v-for="(item, index) in 22" v-bind:key="index" class="page-item">
-                <a class="page-link" href="#"> {{ index + 1}}</a>
+              <li v-for="(item, index) in 28" v-bind:key="index" class="page-item">
+                <a class="page-link" v-on:click="btnPatients(index)"> {{ index + 1}}</a>
               </li>
               <!-- <li class="page-item"><a class="page-link" href="#">Previous</a></li>
               <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -56,16 +57,22 @@
       Card
     },
     mounted(){
-      this.getPatients();
+      this.getPatients(1);
     },
     data() {
       return {
+        show_table:false,
         patients:[],
         tableColumns: ['Id', 'Name', 'Salary', 'Operations'],
         tableData: []
       }
     },
     methods: {
+      btnPatients(event){
+        this.tableData = [];
+        this.show_table = false;
+        this.getPatients(event+1);
+      },
       assignImage(gender, age) {
         if (gender === 'M' && age<18){
           return 'img/users/children.png';
@@ -95,26 +102,31 @@
         }
         return edad;
       },
-      getPatients(){
-         axios.get(process.env.VUE_APP_BACKEND_SERVER+'/patients')
+      getPatients(page){
+         axios.get(process.env.VUE_APP_BACKEND_SERVER+'/patients?page='+page)
           .then(response => {
-           // console.log("Pacientes", response.data);
-            this.patients = response.data.slice(0, 9);
-            for (var patient of this.patients) {
-              var new_patient = patient;
+            this.show_table = true;
+            var keysTable = Object.keys(response.data);
+            var valuesTable = Object.values(response.data);
+            this.show_table_1 = true;
+            for (var key of keysTable) {
+              var new_patient = valuesTable[key];
               new_patient['age'] = this.calculateAge(new_patient['birthdate']);
-              new_patient['image'] = this.assignImage(new_patient['gender'], new_patient['age'])
+              new_patient['image'] = this.assignImage(new_patient['gender'], new_patient['age']);
+              new_patient['adherence'] = (new_patient['pred_adherence'][1]*100).toFixed(2);
               this.tableData.push(new_patient);
+              //this.tableData.data.push(valuesTable[key])
             }
-            console.log("this.patients", this.patients);
+           // console.log("this.patients", this.patients);
           })
           .catch(err => {
             console.log(err)
           })
 
       },
-      handleEdit(row){
-        console.log(`You want to edit row with id: ${row.id}`)
+      handleEdit(id){
+        this.$router.push('/admin/user/'+id);
+        //console.log(`You want to edit row with id: ${row.id}`)
       },
       handleDelete(row){
         console.log(`You want to delete row with id: ${row.id}`)
@@ -123,5 +135,19 @@
   }
 </script>
 <style>
+
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>
 

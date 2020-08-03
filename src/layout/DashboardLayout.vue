@@ -6,7 +6,7 @@
         <i class="nc-icon nc-chart-pie-35"></i>
         <p>Panel</p>
       </sidebar-link>
-      <sidebar-link to="/admin/user">
+      <sidebar-link to="/admin/user/0">
         <i class="nc-icon nc-circle-09"></i>
         <p>Nuevo Paciente</p>
       </sidebar-link>
@@ -26,10 +26,10 @@
         <i class="nc-icon nc-pin-3"></i>
         <p>Maps</p>
       </sidebar-link>-->
-      <sidebar-link to="/admin/notifications">
+      <!-- <sidebar-link to="/admin/notifications">
         <i class="nc-icon nc-bell-55"></i>
         <p>Recomendaciones</p>
-      </sidebar-link>
+      </sidebar-link> -->
 
       <template slot="bottom-links">
         <sidebar-link class="active"

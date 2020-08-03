@@ -7,14 +7,14 @@
                 <base-input type="text"
                             label="Nombres"
                             placeholder="Nombres"
-                            v-model="patient.firstName">
+                            v-model="patient.first_name">
                 </base-input>
                 </div>
                 <div class="col-md-4">
                 <base-input type="text"
                             label="Apellidos"
                             placeholder="Apellidos"
-                            v-model="patient.lastName">
+                            v-model="patient.last_name">
                 </base-input>
                 </div>
                 <div class="col-md-2">
@@ -50,13 +50,13 @@
                 <base-input type="text"
                             label="Nº de identificación"
                             placeholder="Nº de identificación"
-                            v-model="patient.identification">
+                            v-model="patient.id_patient">
                 </base-input>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="sel1">Estado civil</label>
-                        <select class="form-control" id="sel1" v-model="patient.identification_type">
+                        <select class="form-control" id="sel1" v-model="patient.civil_status">
                             <option>Casado(a)</option>
                             <option>Soltero(a)</option>
                             <option>Separado(a)</option>
@@ -180,10 +180,14 @@
         </button>
       </div>
         </form>
+        <div class="alert alert-warning" v-if="show_msm">
+            <span><b> Adherencia - </b> La probabilidad que el usuario <b>{{id}}</b> sea <b>{{is_adherce}}</b> es del <b>{{percentage}} %</b></span>
+        </div>
     </card>
 </template>
 <script>
   import Card from 'src/components/Cards/Card.vue'
+  import axios from 'axios';
 
   export default {
     components: {
@@ -193,11 +197,24 @@
     // a computed getter
         completeName: function () {
         // `this` points to the vm instance
-            return `${this.patient.firstName} ${this.patient.lastName}`
+            return `${this.patient.first_name} ${this.patient.last_name}`
         }
     },
-        data () {
+    mounted(){
+        //console.log("patientObj", this.patientObj)
+      this.id = this.$route.params.id.toString();
+      if (this.id !== 0) {
+        this.getProfile();
+      }
+       // this.patient = this.patientObj;
+    },
+    data () {
       return {
+          show_msm:false,
+          percentage: 0,
+          id: "",
+          adherence: "",
+          is_adherce: "",
         patient: {
           identification_type: '',
           identification: '',
@@ -221,6 +238,30 @@
       }
     },
     methods: {
+        getAdherence(){
+            axios.get(process.env.VUE_APP_BACKEND_SERVER+'/patient/predict/'+this.id)
+            .then(response => {
+            //this.patient = response.data[0];
+            console.log("adherence", response.data);
+            this.is_adherce = (response.data.prediction === "ADHERENT") ? "Adherente": "NO Adherente";
+            this.percentage = (response.data.probability*100).toFixed(2);
+            this.show_msm = true;
+            })
+            .catch(err => {
+            console.log(err)
+            })
+      },
+      getProfile(){
+        axios.get(process.env.VUE_APP_BACKEND_SERVER+'/patients/'+this.id)
+        .then(response => {
+          this.patient = response.data[0];
+          console.log("this.patients", response.data[0]);
+          this.getAdherence();
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      },
       savePatient () {
           //const color = Math.floor((Math.random() * 4) + 1)
             this.$notifications.notify(
