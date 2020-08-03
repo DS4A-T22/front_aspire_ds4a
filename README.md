@@ -2,10 +2,7 @@
 
 > Admin dashboard based on light bootstrap dashboard UI template + vue-router
 
-This project is a vue version of [Light bootstrap dashboard](https://www.creative-tim.com/product/light-bootstrap-dashboard)
-designed for vue js. The dashboard includes Bootstrap 4, vue-router, chartist, google-maps and several other plugins/components.
-
-Check the [Live Demo here](http://vuejs.creative-tim.com/vue-light-bootstrap-dashboard).
+Check the [Live Demo here](https://ds4a-aspire.firebaseapp.com/).
 
 ![](public/Dashboard.PNG)
 ## :rocket: Getting started
