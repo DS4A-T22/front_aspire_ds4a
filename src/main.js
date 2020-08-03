@@ -24,9 +24,12 @@ import LightBootstrap from './light-bootstrap-main'
 import routes from './routes/routes'
 
 import './registerServiceWorker'
+import { ChartPlugin} from "@syncfusion/ej2-vue-charts";
 // plugin setup
 Vue.use(VueRouter)
 Vue.use(LightBootstrap)
+
+Vue.use(ChartPlugin);
 
 // configure router
 const router = new VueRouter({

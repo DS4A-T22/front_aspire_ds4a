@@ -13,17 +13,20 @@
     "lint-fix": "vue-cli-service lint --fix"
   },
   "dependencies": {
+    "@syncfusion/ej2-vue-charts": "^18.2.47",
+    "axios": "^0.19.2",
     "bootstrap": "^4.3.1",
     "chartist": "^0.11.0",
     "google-maps": "^3.2.1",
+    "jscharting": "^2.9.0-9",
+    "lodash.orderby": "^4.6.0",
     "register-service-worker": "^1.5.2",
+    "v-datatable-light": "^0.8.1",
     "v-tooltip": "^2.0.0-rc.33",
     "vue": "^2.6.6",
     "vue-router": "^3.0.2",
-    "vue2-google-maps": "^0.8.4",
-    "lodash.orderby": "^4.6.0",
-    "v-datatable-light": "^0.8.1",
-    "vue-simple-spinner": "^1.2.10"
+    "vue-simple-spinner": "^1.2.10",
+    "vue2-google-maps": "^0.8.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",

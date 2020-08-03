@@ -1,375 +1,127 @@
 <template>
-  <div id="app">
-    <h3 class="title">Pacientes</h3>
-    
-    </br>
-    <DataTable
-      :header-fields="headerFields"
-      :sort-field="sortField"
-      :sort="sort"
-      :data="data || []"
-      :is-loading="isLoading"
-      :css="datatableCss"
-      not-found-msg="Items not found"
-      @onUpdate="dtUpdateSort"
-      trackBy="firstName"
-    >
-      <input
-        slot="actions"
-        slot-scope="props"
-        type="button"
-        class="btn btn-info"
-        value="Edit"
-        @click="dtEditClick(props);"
-      >
-      <input
-        slot="actions"
-        slot-scope="props"
-        type="button"
-        class="btn btn-info"
-        value="Detalle"
-        @click="dtEditClick(props);"
-      >
-      <div class="items-per-page" slot="ItemsPerPage">
-        <label>Items per page</label>
-        <ItemsPerPageDropdown
-          :list-items-per-page="listItemsPerPage"
-          :items-per-page="itemsPerPage"
-          :css="itemsPerPageCss"
-          @onUpdate="updateItemsPerPage"
-        />
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <card class="strpied-tabled-with-hover"
+                body-classes="table-full-width table-responsive"
+          >
+            <template slot="header">
+              <h4 class="card-title">Pacientes</h4>
+              <p class="card-category">Lista de pacientes OMNIVIDA</p>
+            </template>
+            <l-table class="table table-hover" :columns="tableColumns" :data="tableData">
+              <template slot="columns" style="width: 100%;!important">
+                  <th></th>
+                  <th>Nombres</th>
+                  <th></th>
+                  <th style="width: 100%;!important">Adherencia</th>
+              </template>
+              <template slot-scope="{row}">
+                <td><img style="width: 50px;" v-bind:src="row.image" /></td>
+                <td><p style="margin-bottom: 0;!important"><b>{{row.first_name}} {{row.last_name}}</b></p > {{row.age}} años</td>
+                <td>
+                  <button class="btn btn-icon btn-info" @click="handleEdit(row)"><i class="fa fa-edit"></i></button>
+                  <button class="btn btn-icon btn-danger" @click="handleDelete(row)"><i class="fa fa-trash"></i></button>
+                </td>
+                <td>78%</td>
+              </template>
+          </l-table>
+          </card>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li v-for="(item, index) in 22" v-bind:key="index" class="page-item">
+                <a class="page-link" href="#"> {{ index + 1}}</a>
+              </li>
+              <!-- <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+              <li class="page-item"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
+            </ul>
+          </nav>
+        </div>
       </div>
-      <Spinner slot="spinner"/>
-    </DataTable>
+    </div>
   </div>
 </template>
-<style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-#app .title {
-  margin-bottom: 30px;
-}
-#app .items-per-page {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  color: #337ab7;
-}
-#app .items-per-page label {
-  margin: 0 15px;
-}
-/* Datatable CSS */
-#v-datatable-light .header-item {
-  cursor: pointer;
-  color: #337ab7;
-  transition: color 0.15s ease-in-out;
-}
-#v-datatable-light .header-item:hover {
-  color: #ed9b19;
-}
-#v-datatable-light .header-item.no-sortable {
-  cursor: default;
-}
-#v-datatable-light .header-item.no-sortable:hover {
-  color: #337ab7;
-}
-#v-datatable-light .header-item .th-wrapper {
-  justify-content: center;
-  display: flex;
-  width: 95%;
-  height: 95%;
-  font-weight: bold;
-}
-#v-datatable-light .header-item .th-wrapper.checkboxes {
-  justify-content: center;
-}
-#v-datatable-light .header-item .th-wrapper .arrows-wrapper {
-  display: flex;
-  flex-direction: column;
-  margin-left: 10px;
-  justify-content: space-between;
-}
-#v-datatable-light .header-item .th-wrapper .arrows-wrapper.centralized {
-  justify-content: center;
-}
-#v-datatable-light .arrow {
-  transition: color 0.15s ease-in-out;
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-}
-#v-datatable-light .arrow.up {
-  border-bottom: 8px solid #337ab7;
-}
-#v-datatable-light .arrow.up:hover {
-  border-bottom: 8px solid #ed9b19;
-}
-#v-datatable-light .arrow.down {
-  border-top: 8px solid #337ab7;
-}
-#v-datatable-light .arrow.down:hover {
-  border-top: 8px solid #ed9b19;
-}
-#v-datatable-light .footer {
-  display: flex;
-  justify-content: space-between;
-  width: 500px;
-}
-/* End Datatable CSS */
-/* Pagination CSS */
-#v-datatable-light-pagination {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin: 0;
-  padding: 0;
-  width: 300px;
-  height: 30px;
-}
-#v-datatable-light-pagination .pagination-item {
-  width: 30px;
-  margin-right: 5px;
-  font-size: 16px;
-  transition: color 0.15s ease-in-out;
-}
-#v-datatable-light-pagination .pagination-item.selected {
-  color: #ed9b19;
-}
-#v-datatable-light-pagination .pagination-item .page-btn {
-  background-color: transparent;
-  outline: none;
-  border: none;
-  color: #337ab7;
-  transition: color 0.15s ease-in-out;
-}
-#v-datatable-light-pagination .pagination-item .page-btn:hover {
-  color: #ed9b19;
-}
-#v-datatable-light-pagination .pagination-item .page-btn:disabled {
-  cursor: not-allowed;
-  box-shadow: none;
-  opacity: 0.65;
-}
-/* END PAGINATION CSS */
-/* ITEMS PER PAGE DROPDOWN CSS */
-.item-per-page-dropdown {
-  background-color: transparent;
-  min-height: 30px;
-  border: 1px solid #337ab7;
-  border-radius: 5px;
-  color: #337ab7;
-}
-.item-per-page-dropdown:hover {
-  cursor: pointer;
-}
-/* END ITEMS PER PAGE DROPDOWN CSS */
-</style>
-
 <script>
-import Spinner from "vue-simple-spinner";
-import { DataTable, ItemsPerPageDropdown, Pagination } from "v-datatable-light";
-import orderBy from "lodash.orderby";
-const addZero = value => ("0" + value).slice(-2);
-const formatDate = value => {
-  if (value) {
-    const dt = new Date(value);
-    return `${addZero(dt.getDate())}/${addZero(
-      dt.getMonth() + 1
-    )}/${dt.getFullYear()}`;
-  }
-  return "";
-};
-const initialData = [
-{
-    ID: "19212132",
-    Nombre: "Andrés López ",
-    Ciudad: "Medellín",
-    Adherencia: "Adherente",
-    Estado:"activo",
-    dob: "13/02/1975",
-    created: new Date().getTime(),
-    updated: new Date().getTime()
-  },
-  {
-    ID: "15251621",
-    Nombre: "Fernando Lara ",
-    Ciudad: "Medellín",
-    Adherencia: "No Adherente",
-    Estado:"activo",
-    dob: "16/04/1975",
-    created: new Date().getTime(),
-    updated: new Date().getTime()
-  },
-  {
-    ID: "83261762",
-    Nombre: "Edgar Noguera ",
-    Ciudad: "Medellín",
-    Adherencia: "No Adherente",
-    Estado:"activo",
-    dob: "13/02/1975",
-    created: new Date().getTime(),
-    updated: new Date().getTime()
-  },
-  {
-    ID: "283474723",
-    Nombre: "Victor Ramirez ",
-    Ciudad: "Medellín",
-    Adherencia: "Adherente",
-    Estado:"activo",
-    dob: "13/06/1987",
-    created: new Date().getTime(),
-    updated: new Date().getTime()
-  },
-  {
-    ID: "845273526",
-    Nombre: "Luis Hoyos ",
-    Ciudad: "Medellín",
-    Adherencia: "Adherente",
-    Estado:"activo",
-    dob: "23/10/1954",
-    created: new Date().getTime(),
-    updated: new Date().getTime()
-  },
-  {
-    ID: "24523736",
-    Nombre: "Carlos Alegría ",
-    Ciudad: "Medellín",
-    Adherencia: "Adherente",
-    Estado:"activo",
-    dob: "13/02/1965",
-    created: new Date().getTime(),
-    updated: new Date().getTime()
-  },
-  {
-    ID: "12737261",
-    Nombre: "Maria Obando ",
-    Ciudad: "Medellín",
-    Adherencia: "Adherente",
-    Estado:"activo",
-    dob: "13/05/1987",
-    created: new Date().getTime(),
-    updated: new Date().getTime()
-  }
-];
-export default {
-  name: "app",
-  components: {
-    DataTable,
-    ItemsPerPageDropdown,
-    Pagination,
-    Spinner
-  },
-  data: function() {
-    return {
-      headerFields: [
-        "__slot:checkboxes",
-        {
-          name: "ID",
-          label: "ID",
-          sortable: true
-        },
-        {
-          name: "Nombre",
-          label: "Nombre",
-          sortable: true
-        },
-        {
-          name: "Adherencia",
-          label: "Adherencia",
-          sortable: true
-        },
-          {
-          name: "Estado",
-          label: "Estado",
-          sortable: true
-        },
-        {
-          name: "dob",
-          label: "F. Nac",
-          sortable: true
-        },
-        {
-          name: "created",
-          label: "Creado",
-          sortable: true,
-          format: formatDate
-        },
-        {
-          name: "updated",
-          label: "Actualizado",
-          sortable: false,
-          format: formatDate
-        },
-        "__slot:actions"
-      ],
-      data: initialData.slice(0, 10),
-      datatableCss: {
-        table: "table table-bordered table-hover table-striped table-center",
-        th: "header-item",
-        thWrapper: "th-wrapper",
-        thWrapperCheckboxes: "th-wrapper checkboxes",
-        arrowsWrapper: "arrows-wrapper",
-        arrowUp: "arrow up",
-        arrowDown: "arrow down",
-        footer: "footer"
-      },
-      paginationCss: {
-        paginationItem: "pagination-item",
-        moveFirstPage: "move-first-page",
-        movePreviousPage: "move-previous-page",
-        moveNextPage: "move-next-page",
-        moveLastPage: "move-last-page",
-        pageBtn: "page-btn"
-      },
-      itemsPerPageCss: {
-        select: "item-per-page-dropdown"
-      },
-      isLoading: false,
-      sort: "asc",
-      sortField: "firstName",
-      listItemsPerPage: [5, 10, 20, 50, 100],
-      itemsPerPage: 10,
-      currentPage: 1,
-      totalItems: 16
-    };
-  },
-  methods: {
-    dtEditClick: props => alert("Click props:" + JSON.stringify(props)),
-    dtUpdateSort: function({ sortField, sort }) {
-      const sortedData = orderBy(initialData, [sortField], [sort]);
-      const start = (this.currentPage - 1) * this.itemsPerPage;
-      const end = this.currentPage * this.itemsPerPage;
-      this.data = sortedData.slice(start, end);
-      console.log("load data based on new sort", this.currentPage);
+  import LTable from 'src/components/Table.vue'
+  import Card from 'src/components/Cards/Card.vue'
+  import axios from 'axios';
+  const tableColumns = ['Id', 'Name', 'Salary', 'Country', 'City']
+  export default {
+    components: {
+      LTable,
+      Card
     },
-    updateItemsPerPage: function(itemsPerPage) {
-      this.itemsPerPage = itemsPerPage;
-      if (itemsPerPage >= initialData.length) {
-        this.data = initialData;
-      } else {
-        this.data = initialData.slice(0, itemsPerPage);
+    mounted(){
+      this.getPatients();
+    },
+    data() {
+      return {
+        patients:[],
+        tableColumns: ['Id', 'Name', 'Salary', 'Operations'],
+        tableData: []
       }
-      console.log("load data with new items per page number", itemsPerPage);
     },
-    changePage: function(currentPage) {
-      this.currentPage = currentPage;
-      const start = (currentPage - 1) * this.itemsPerPage;
-      const end = currentPage * this.itemsPerPage;
-      this.data = initialData.slice(start, end);
-      console.log("load data for the new page", currentPage);
-    },
-    updateCurrentPage: function(currentPage) {
-      this.currentPage = currentPage;
-      console.log("update current page without need to load data", currentPage);
+    methods: {
+      assignImage(gender, age) {
+        if (gender === 'M' && age<18){
+          return 'img/users/children.png';
+        } 
+        else if (gender === 'M' && age>18 && age<65){
+          return 'img/users/athlete.png';
+        }
+        else if (gender === 'M' && age>65){
+          return 'img/users/grandfather.png';
+        }else if (gender === 'F' && age<18){
+          return 'img/users/girl.png';
+        } 
+        else if (gender === 'F' && age>18 && age<65){
+          return 'img/users/woman.png';
+        }
+        else if (gender === 'F' && age>65){
+          return 'img/users/grandmother.png';
+        }
+      },
+      calculateAge(birtdate) {
+        var hoy = new Date();
+        var cumpleanos = new Date(birtdate);
+        var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+        var m = hoy.getMonth() - cumpleanos.getMonth();
+        if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+            edad--;
+        }
+        return edad;
+      },
+      getPatients(){
+         axios.get(process.env.VUE_APP_BACKEND_SERVER+'/patients')
+          .then(response => {
+           // console.log("Pacientes", response.data);
+            this.patients = response.data.slice(0, 9);
+            for (var patient of this.patients) {
+              var new_patient = patient;
+              new_patient['age'] = this.calculateAge(new_patient['birthdate']);
+              new_patient['image'] = this.assignImage(new_patient['gender'], new_patient['age'])
+              this.tableData.push(new_patient);
+            }
+            console.log("this.patients", this.patients);
+          })
+          .catch(err => {
+            console.log(err)
+          })
+
+      },
+      handleEdit(row){
+        console.log(`You want to edit row with id: ${row.id}`)
+      },
+      handleDelete(row){
+        console.log(`You want to delete row with id: ${row.id}`)
+      }
     }
   }
-};
 </script>
+<style>
+</style>
+
